@@ -15,10 +15,10 @@ $(call inherit-product, vendor/omni/config/common.mk)
 # Inherit from TECNO-LE7 device
 $(call inherit-product, device/tecno/TECNO-LE7/device.mk)
 
-PRODUCT_DEVICE := TECNO-LE7
-PRODUCT_NAME := omni_TECNO-LE7
+PRODUCT_DEVICE := TECNO_LE7
+PRODUCT_NAME := omni_TECNO_LE7
 PRODUCT_BRAND := TECNO
-PRODUCT_MODEL := TECNO LE7
+PRODUCT_MODEL := TECNO LE7(n)
 PRODUCT_MANUFACTURER := tecno
 
 PRODUCT_GMS_CLIENTID_BASE := android-tecno
