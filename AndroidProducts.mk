@@ -9,6 +9,6 @@ PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/omni_TECNO-LE7.mk
 
 COMMON_LUNCH_CHOICES := \
-    omni_TECNO-LE7-user \
-    omni_TECNO-LE7-userdebug \
-    omni_TECNO-LE7-eng
+    omni_TECNO_LE7-user \
+    omni_TECNO_LE7-userdebug \
+    omni_TECNO_LE7-eng
