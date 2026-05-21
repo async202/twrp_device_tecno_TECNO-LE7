@@ -6,7 +6,7 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/omni_TECNO-LE7.mk
+    $(LOCAL_DIR)/omni_TECNO_LE7.mk
 
 COMMON_LUNCH_CHOICES := \
     omni_TECNO_LE7-user \
