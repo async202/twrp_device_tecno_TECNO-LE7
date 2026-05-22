@@ -18,7 +18,8 @@ persist.sys.usb.config=mtp,adb
 persist.service.adb.enable=1
 persist.service.debuggable=1
 
-# Безопасные USB-твики
+# USB tweaks
 ro.sys.usb.storage.type=mtp
 persist.adb.nonblocking_ffs=1
 persist.sys.isUsbOtgEnabled=true
+sys.usb.controller=11201000.usb
