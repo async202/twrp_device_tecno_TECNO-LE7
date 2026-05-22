@@ -33,11 +33,3 @@ PRODUCT_PACKAGES += \
     update_engine \
     update_verifier \
     update_engine_sideload
-
-# Recovery Root config
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/recovery/root/fstab.mt6768:recovery/root/fstab.mt6768 \
-    $(LOCAL_PATH)/recovery/root/init.recovery.mt6768.rc:recovery/root/init.recovery.mt6768.rc \
-    $(LOCAL_PATH)/recovery/root/init.recovery.usb.rc:recovery/root/init.recovery.usb.rc \
-    $(LOCAL_PATH)/recovery/root/init.recovery.microtrust.rc:recovery/root/init.recovery.microtrust.rc \
-    $(LOCAL_PATH)/recovery/root/ueventd.mt6768.rc:recovery/root/ueventd.mt6768.rc
