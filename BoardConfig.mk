@@ -111,3 +111,32 @@ TW_SCREEN_BLANK_ON_BOOT := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_USE_TOOLBOX := true
 TW_INCLUDE_REPACKTOOLS := true
+TW_HAS_MTP := true
+TWRP_INCLUDE_LOGCAT := true
+TARGET_USES_LOGD := true
+TW_NO_TWRPAPP := true
+
+# TWRP fstab link
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
+
+BOARD_ROOT_EXTRA_FOLDERS += metadata tranfs
+
+# MTK hardware
+BOARD_USES_MTK_HARDWARE := true
+BOARD_HAS_MTK_HARDWARE := true
+
+TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
+TW_MAX_BRIGHTNESS := 2047
+TW_DEFAULT_BRIGHTNESS := 1200
+
+# Crypto
+TW_INCLUDE_CRYPTO := true
+TW_INCLUDE_FBE_METADATA_DECRYPT := true
+
+TARGET_RECOVERY_DEVICE_MODULES += \
+    libkeymaster4 \
+    libpuresoftkeymasterdevice
+
+TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so
