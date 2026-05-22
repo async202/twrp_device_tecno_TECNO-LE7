@@ -1,0 +1,24 @@
+# Identity & platform
+ro.board.platform=mt6768
+ro.vendor.mediatek.platform=MT6768
+
+# Crypto & TEE
+ro.hardware.kmsetkey=beanpod
+ro.hardware.gatekeeper=beanpod
+ro.mtk_tee_gp_support=1
+ro.mtk_microtrust_tee_support=1
+fbe.metadata.wrappedkey=true
+ro.crypto.volume.filenames_mode=aes-256-cts
+
+# ADB & Debugging 
+ro.secure=0
+ro.adb.secure=0
+ro.debuggable=1
+persist.sys.usb.config=mtp,adb
+persist.service.adb.enable=1
+persist.service.debuggable=1
+
+# Безопасные USB-твики
+ro.sys.usb.storage.type=mtp
+persist.adb.nonblocking_ffs=1
+persist.sys.isUsbOtgEnabled=true
