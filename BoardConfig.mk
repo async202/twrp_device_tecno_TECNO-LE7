@@ -105,7 +105,6 @@ TARGET_COPY_OUT_SYSTEM_EXT := system_ext
 BOARD_SUPPRESS_SECURE_ERASE := true
 BOARD_ROOT_EXTRA_FOLDERS += metadata tranfs
 
-
 # TWRP Configuration
 TW_THEME := portrait_hdpi
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
@@ -133,6 +132,11 @@ TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 BOARD_AVB_ENABLE := true
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
 
+# Resetprop library & APEX
+TW_INCLUDE_LIBRESETPROP := true
+TW_INCLUDE_RESETPROP := true
+TW_EXCLUDE_APEX := true
+
 # Encryption & Keymaster
 PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := 2099-12-31
@@ -142,8 +146,10 @@ TW_INCLUDE_FBE_METADATA_DECRYPT := true
 
 TARGET_RECOVERY_DEVICE_MODULES += \
     libkeymaster4 \
-    libpuresoftkeymasterdevice
+    libpuresoftkeymasterdevice \
+    libresetprop
 
 TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4.so \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so
+    $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libresetprop.so
