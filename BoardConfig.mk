@@ -10,7 +10,6 @@ DEVICE_PATH := device/tecno/TECNO_LE7
 # Allow building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
 
-
 # Architecture
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
@@ -29,7 +28,6 @@ TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a53
 TARGET_BOARD_SUFFIX := _64
 TARGET_USES_64_BIT_BINDER := true
 
-
 # Platform & Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := TECNO_LE7n
 TARGET_NO_BOOTLOADER := true
@@ -39,7 +37,6 @@ TARGET_USES_UEFI := true
 # MTK Hardware
 BOARD_USES_MTK_HARDWARE := true
 BOARD_HAS_MTK_HARDWARE := true
-
 
 # Kernel & Boot Image
 BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2
@@ -67,9 +64,16 @@ BOARD_MKBOOTIMG_ARGS += --dtb_offset $(BOARD_DTB_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
 
-
 # Partitions & Dynamic Groups
 AB_OTA_UPDATER := true
+AB_OTA_PARTITIONS += \
+    system \
+    boot \
+    vbmeta_system \
+    product \
+    vbmeta_vendor \
+    system_ext \
+    vendor
 BOARD_USES_RECOVERY_AS_BOOT := true
 TARGET_NO_RECOVERY := true
 
