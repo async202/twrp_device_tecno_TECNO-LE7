@@ -79,26 +79,30 @@ PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.0-impl-mock \
     fastbootd
 
+#OTA related
 PRODUCT_PACKAGES += \
-    keystore2 \
     otapreopt_script \
     cppreopts.sh \
     update_engine \
     update_verifier \
     update_engine_sideload
 
+#KeyMaster (KeyMint) related
+PRODUCT_PACKAGES += \
+    keystore2 \
+    libpuresoftkeymasterdevice \
+    libpuresoftkeymasterdevice.recovery
+
 # Additional binaries & libraries
 TARGET_RECOVERY_DEVICE_MODULES += \
     libgatekeeper \
     libgatekeeper_aidl \
     libkeymaster41 \
-    libpuresoftkeymasterdevice
 
 TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libgatekeeper.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/libgatekeeper_aidl.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster41.so \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so
 
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
