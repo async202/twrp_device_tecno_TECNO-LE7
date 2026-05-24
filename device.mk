@@ -6,7 +6,21 @@
 #
 
 LOCAL_PATH := device/tecno/TECNO_LE7
-PRODUCT_PLATFORM := mt6768
+
+# Dynamic partitions
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+
+# Enable APEX updating
+$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
+
+# Virtual A/B
+ENABLE_VIRTUAL_AB := true
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/compression.mk)
+
+# Configure compression
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/compression_retrofit.mk)
 
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
@@ -18,8 +32,7 @@ AB_OTA_PARTITIONS += \
     vbmeta_vendor \
     vbmeta_system
 
-# Virtual A/B
-ENABLE_VIRTUAL_AB := true
+# Virtual A/B OTA
 PRODUCT_VIRTUAL_AB_OTA := true
 PRODUCT_VENDOR_PROPERTIES += ro.virtual_ab.enabled=true
 
@@ -34,6 +47,11 @@ AB_OTA_POSTINSTALL_CONFIG += \
     POSTINSTALL_PATH_vendor=bin/checkpoint_gc \
     FILESYSTEM_TYPE_vendor=ext4 \
     POSTINSTALL_OPTIONAL_vendor=true
+
+# MTK PlPath Utils
+PRODUCT_PACKAGES += \
+    mtk_plpath_utils \
+    mtk_plpath_utils.recovery
 
 # Set VNDK & API level
 PRODUCT_TARGET_VNDK_VERSION := 30
