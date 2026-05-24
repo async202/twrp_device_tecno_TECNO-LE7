@@ -148,11 +148,9 @@ TW_INCLUDE_FBE_METADATA_DECRYPT := true
 TW_USE_KEYSTORE_2 := true
 
 TARGET_RECOVERY_DEVICE_MODULES += \
-    libkeymaster4 \
     libpuresoftkeymasterdevice \
     libresetprop
 
 TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4.so \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libresetprop.so
+    $(TARGET_OUT_SHARED_LIBS)/libpuresoftkeymasterdevice.so \
+    $(TARGET_OUT_SHARED_LIBS)/libresetprop.so
