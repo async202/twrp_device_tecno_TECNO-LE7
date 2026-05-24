@@ -182,9 +182,9 @@ SELINUX_IGNORE_NEVERALLOWS  := true
 BOARD_SEPOLICY_DIRS += sepolicy/recovery
 
 #A11 decryption support
-BOARD_AVB_RECOVERY_ADD_HASH_FOOTER_ARGS += \
-    --prop com.android.build.boot.os_version:$(PLATFORM_VERSION) \
-    --prop com.android.build.boot.security_patch:$(PLATFORM_SECURITY_PATCH)
+BOARD_AVB_BOOT_ADD_HASH_FOOTER_ARGS += \
+    --prop com.android.build.boot.os_version:12.0.0 \
+    --prop com.android.build.boot.security_patch:2099-12-31
 
 #A12+ decryption support
 PLATFORM_VERSION        := 12.0.0
