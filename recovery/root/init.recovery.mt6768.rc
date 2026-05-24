@@ -52,6 +52,14 @@ service mtk.plpath.utils.link /system/bin/mtk_plpath_utils
     oneshot
     seclabel u:r:recovery:s0
 
+service keystore2 /system/bin/keystore2 /tmp/misc/keystore
+    interface aidl/android.system.keystore2.IKeystoreService default
+    class early_hal
+    user root
+    group root readproc log
+    disabled
+    seclabel u:r:recovery:s0
+
 service gatekeeper-1-0 /system/bin/android.hardware.gatekeeper@1.0-service
     interface android.hardware.gatekeeper@1.0::IGatekeeper default
     user root
@@ -60,7 +68,7 @@ service gatekeeper-1-0 /system/bin/android.hardware.gatekeeper@1.0-service
     seclabel u:r:recovery:s0
 
 service keymaster-4-0 /system/bin/android.hardware.keymaster@4.0-service.beanpod
-interface android.hardware.keymaster@4.0::IKeymasterDevice default
+    interface android.hardware.keymaster@4.0::IKeymasterDevice default
     class early_hal
     user root
     group root drmrpc
@@ -71,21 +79,25 @@ on property:vendor.sys.listener.registered=true
     start gatekeeper-1-0
     
 on property:hwservicemanager.ready=true
+    start keystore2
     start keymaster-4-0
     start gatekeeper-1-0
    
 on property:ro.crypto.state=unsupported
     stop teei_daemon
+    stop keystore2
     stop keymaster-4-0
     stop gatekeeper-1-0
     
 on property:ro.crypto.state=unencrypted
     stop teei_daemon
+    stop keystore2
     stop keymaster-4-0
     stop gatekeeper-1-0
         
 on property:twrp.all.users.decrypted=true
     stop teei_daemon
+    stop keystore2
     stop keymaster-4-0
     stop gatekeeper-1-0
    
