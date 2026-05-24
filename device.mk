@@ -55,6 +55,7 @@ PRODUCT_PACKAGES += \
     fastbootd
 
 PRODUCT_PACKAGES += \
+    keystore2 \
     otapreopt_script \
     cppreopts.sh \
     update_engine \
