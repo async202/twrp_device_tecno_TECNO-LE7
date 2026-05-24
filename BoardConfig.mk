@@ -158,4 +158,4 @@ TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libresetprop.so
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/vendor/lib64/libkeymaster_messages_vendor.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libkeymaster_messages_vendor.so
+    $(LOCAL_PATH)/vendor/lib64/libkeymaster_messages.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libkeymaster_messages.so
