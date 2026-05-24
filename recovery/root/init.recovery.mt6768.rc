@@ -76,25 +76,25 @@ on property:vendor.sys.listener.registered=true
     
 on property:hwservicemanager.ready=true
     start keystore2
-    start keymaster-4-0
+    start vendor-keymaster-4-0-beanpod
     start gatekeeper-1-0
    
 on property:ro.crypto.state=unsupported
     stop teei_daemon
     stop keystore2
-    stop keymaster-4-0
+    stop vendor-keymaster-4-0-beanpod
     stop gatekeeper-1-0
     
 on property:ro.crypto.state=unencrypted
     stop teei_daemon
     stop keystore2
-    stop keymaster-4-0
+    stop vendor-keymaster-4-0-beanpod
     stop gatekeeper-1-0
         
 on property:twrp.all.users.decrypted=true
     stop teei_daemon
     stop keystore2
-    stop keymaster-4-0
+    stop vendor-keymaster-4-0-beanpod
     stop gatekeeper-1-0
    
 on boot
