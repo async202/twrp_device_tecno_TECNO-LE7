@@ -7,3 +7,18 @@
 
 soong_namespace {
 }
+
+cc_prebuilt_library_shared {
+    name: "libpuresoftkeymasterdevice",
+    stem: "libpuresoftkeymasterdevice",
+    vendor: true,
+    target: {
+        android_arm64: {
+            srcs: ["recovery/root/vendor/lib64/libpuresoftkeymasterdevice.so"],
+        },
+    },
+    strip: {
+        none: true,
+    },
+    check_elf_files: false,
+}
