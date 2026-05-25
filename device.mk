@@ -94,7 +94,7 @@ PRODUCT_PACKAGES += \
     libpuresoftkeymasterdevice.recovery
 
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/recovery/root/vendor/lib64/libpuresoftkeymasterdevice.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libpuresoftkeymasterdevice.so
+    $(LOCAL_PATH)/recovery/root/vendor/lib64/libpuresoftkeymasterdevice.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libpuresoftkeymasterdevice.so
 
 # Additional binaries & libraries
 TARGET_RECOVERY_DEVICE_MODULES += \
