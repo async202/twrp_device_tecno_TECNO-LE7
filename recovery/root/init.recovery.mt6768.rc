@@ -75,9 +75,21 @@ on property:vendor.sys.listener.registered=true
     start gatekeeper-1-0
     
 on property:hwservicemanager.ready=true
+    start prepdecrypt
+
+# Keymaster & keystore2 will launch only after prepdecrypt.sh set .ready=true
+on property:tw.decrypt.props.ready=true
     start keystore2
     start vendor-keymaster-4-0-beanpod
     start gatekeeper-1-0
+
+# prepdecrypt service itself
+service prepdecrypt /system/bin/prepdecrypt.sh
+    user root
+    group root
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
    
 on property:ro.crypto.state=unsupported
     stop teei_daemon
