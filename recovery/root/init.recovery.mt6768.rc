@@ -70,9 +70,6 @@ service vendor-keymaster-4-0-beanpod /vendor/bin/android.hardware.keymaster@4.0-
     group root drmrpc
     disabled
     seclabel u:r:recovery:s0
-
-on property:vendor.sys.listener.registered=true
-    start gatekeeper-1-0
     
 on property:hwservicemanager.ready=true
     start prepdecrypt
