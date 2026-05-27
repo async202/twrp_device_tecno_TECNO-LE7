@@ -41,9 +41,9 @@
 /product_img      emmc   /dev/block/mapper/product               flags=display="Product image";backup=1;flashimg;slotselect 
 
 # Other
-/persistent               emmc      /dev/block/by-name/frp                                 flags=display=frp;backup=1
-/nvram                    emmc      /dev/block/by-name/nvram                               
-/tranfs                   ext4      /dev/block/by-name/tranfs                              
+/persistent               emmc      /dev/block/platform/bootdevice/by-name/frp                        flags=display=frp;backup=1
+/nvram                    emmc      /dev/block/platform/bootdevice/by-name/nvram                               
+/tranfs                   ext4      /dev/block/platform/bootdevice/by-name/tranfs                              
 
 
 # Removable Storage
