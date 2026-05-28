@@ -33,12 +33,14 @@ if [ -b "$SYS_BLOCK" ]; then
 
     # Search patch date in build.prop
     echo "Searching for patch date in /s/system/build.prop..."
-    PATCHLEVEL=$(grep "ro.build.version.security_patch=" /s/system/build.prop | cut -d'=' -f2)
+    PATCHLEVEL=$(grep "ro.build.version.security_patch=" /s/system/build.prop | cut -d'=' -f2 | head -n1)
+   # BUILDVER=$(grep "ro.build.version.release=" /s/system/build.prop | cut -d'=' -f2 | head -n1)
     
     # Additional check for GSI
     if [ -z "$PATCHLEVEL" ]; then
         echo "Patch is not found in /s/system/build.prop, checking GSI-specific path (/s/build.prop)..."
-        PATCHLEVEL=$(grep "ro.build.version.security_patch=" /s/build.prop | cut -d'=' -f2)
+        PATCHLEVEL=$(grep "ro.build.version.security_patch=" /s/build.prop | cut -d'=' -f2 | head -n1)
+        # BUILDVER=$(grep "ro.build.version.release=" /s/build.prop | cut -d'=' -f2 | head -n1)
     fi
     
     echo "PATCHLEVEL search result: '$PATCHLEVEL'"
