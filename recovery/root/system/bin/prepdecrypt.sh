@@ -3,14 +3,12 @@
 LOG_FILE="/tmp/prepdecrypt.log"
 exec > "$LOG_FILE" 2>&1
 
-# Enable trace
 set -x
 
 echo "=== Launching decrypt preparation ==="
 date
 
-# Create temporary mount point
-mkdir /s
+mkdir -p /s
 
 SLOT=$(getprop ro.boot.slot_suffix | tr -d '[:space:]\r\n\t ')
 echo "Current device slot: '$SLOT'"
@@ -18,23 +16,23 @@ echo "Current device slot: '$SLOT'"
 SYS_BLOCK="/dev/block/mapper/system$SLOT"
 echo "Expected system block: '$SYS_BLOCK'"
 
-for i in $(seq 1 10); do
+i=1
+while [ $i -le 10 ]; do
     if [ -b "$SYS_BLOCK" ]; then
         echo "Success: Block device $SYS_BLOCK found on attempt $i"
         break
     fi
     echo "Wait for $SYS_BLOCK to appear... (attempt $i)"
     sleep 1
+    i=$((i+1))
 done
 
 if [ -b "$SYS_BLOCK" ]; then
     echo "Device block $SYS_BLOCK is found. Trying to mount..."
     
-    #  Mount system (ext4 or erofs) as r/o
-    mount -t erofs $SYS_BLOCK /s || mount -t ext4 $SYS_BLOCK /s
-
-
-if [ $? -eq 0 ]; then
+    mount -t erofs "$SYS_BLOCK" /s || mount -t ext4 "$SYS_BLOCK" /s
+    
+    if [ $? -eq 0 ]; then
         echo "Mount to /s completed successfully"
         echo "Searching for patch date in /s/system/build.prop..."
         
