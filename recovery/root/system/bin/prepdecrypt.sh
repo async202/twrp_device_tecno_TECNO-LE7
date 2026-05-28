@@ -16,7 +16,6 @@ echo "Current device slot: '$SLOT'"
 SYS_BLOCK="/dev/block/mapper/system$SLOT"
 echo "Expected system block: '$SYS_BLOCK'"
 
-# Переменная, где мы будем искать build.prop
 PROP_FILE=""
 
 SEARCH_PATHS="/system_root/system/build.prop /system/system/build.prop /system/build.prop /system_root/build.prop"
