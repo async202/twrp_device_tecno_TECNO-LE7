@@ -43,7 +43,6 @@ if [ -z "$PROP_FILE" ]; then
 
     if [ -b "$SYS_BLOCK" ]; then
         echo "Device block $SYS_BLOCK is found. Trying to mount as READ-ONLY..."
-        
         mount -t erofs -o ro "$SYS_BLOCK" /s || mount -t ext4 -o ro "$SYS_BLOCK" /s
         
         if [ $? -eq 0 ]; then
@@ -56,31 +55,36 @@ if [ -z "$PROP_FILE" ]; then
         else
             echo "ERR: Could not mount device block $SYS_BLOCK in /s!"
         fi
-    else
-        echo "FATAL: Block device $SYS_BLOCK does not exist even after timeout!"
     fi
 fi
 
 if [ ! -z "$PROP_FILE" ] && [ -f "$PROP_FILE" ]; then
-    echo "Extracting PATCHLEVEL from $PROP_FILE..."
+    echo "Extracting system properties from $PROP_FILE..."
+    
     PATCHLEVEL=$(grep "ro.build.version.security_patch=" "$PROP_FILE" | cut -d'=' -f2 | head -n1 | tr -d '[:space:]\r ')
+    RELEASE=$(grep "ro.build.version.release=" "$PROP_FILE" | cut -d'=' -f2 | head -n1 | tr -d '[:space:]\r ')
     
-    echo "PATCHLEVEL search result: '$PATCHLEVEL'"
+    echo "Extracted values: PATCHLEVEL='$PATCHLEVEL', RELEASE='$RELEASE'"
     
-    if [ ! -z "$PATCHLEVEL" ]; then
-        echo "Setting property ro.build.version.security_patch to $PATCHLEVEL"
-        if command -v resetprop >/dev/null 2>&1; then
-            echo "Using resetprop to bypass init restriction..."
+    if command -v resetprop >/dev/null 2>&1; then
+        echo "Using resetprop to bypass init restriction..."
+        
+        if [ ! -z "$PATCHLEVEL" ]; then
             resetprop ro.build.version.security_patch "$PATCHLEVEL"
-        else
-            echo "WARNING: resetprop was NOT found! Falling back to standard setprop..."
-            setprop ro.build.version.security_patch "$PATCHLEVEL"
+        fi
+        
+        if [ ! -z "$RELEASE" ]; then
+            resetprop ro.build.version.release "$RELEASE"
+            resetprop ro.build.version.release_or_codename "$RELEASE"
+            resetprop ro.vendor.build.version.release "$RELEASE"
         fi
     else
-        echo "ERROR: PATCHLEVEL is empty!"
+        echo "ERROR: resetprop not found!"
+        [ ! -z "$PATCHLEVEL" ] && setprop ro.build.version.security_patch "$PATCHLEVEL"
+        [ ! -z "$RELEASE" ] && setprop ro.build.version.release "$RELEASE"
     fi
 else
-    echo "FATAL: core build.prop file could not be found anywhere!"
+    echo "FATAL: core build.prop file could not be found!"
 fi
 
 umount /s 2>/dev/null
