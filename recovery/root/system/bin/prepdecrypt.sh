@@ -12,57 +12,56 @@ date
 # Create temporary mount point
 mkdir /s
 
-SLOT=$(getprop ro.boot.slot_suffix)
+SLOT=$(getprop ro.boot.slot_suffix | tr -d '[:space:]\r\n\t ')
 echo "Current device slot: '$SLOT'"
 
 SYS_BLOCK="/dev/block/mapper/system$SLOT"
-echo "Expected system block: $SYS_BLOCK"
+echo "Expected system block: '$SYS_BLOCK'"
+
+for i in $(seq 1 10); do
+    if [ -b "$SYS_BLOCK" ]; then
+        echo "Success: Block device $SYS_BLOCK found on attempt $i"
+        break
+    fi
+    echo "Wait for $SYS_BLOCK to appear... (attempt $i)"
+    sleep 1
+done
 
 if [ -b "$SYS_BLOCK" ]; then
     echo "Device block $SYS_BLOCK is found. Trying to mount..."
     
     #  Mount system (ext4 or erofs) as r/o
     mount -t erofs $SYS_BLOCK /s || mount -t ext4 $SYS_BLOCK /s
-    
-    # Check mount status
-    if [ $? -eq 0 ]; then
+
+
+if [ $? -eq 0 ]; then
         echo "Mount to /s completed successfully"
+        echo "Searching for patch date in /s/system/build.prop..."
+        
+        PATCHLEVEL=$(grep "ro.build.version.security_patch=" /s/system/build.prop | cut -d'=' -f2 | head -n1 | tr -d '[:space:]\r ')
+        
+        if [ -z "$PATCHLEVEL" ]; then
+            echo "Patch is not found in /s/system/build.prop, checking GSI-specific path (/s/build.prop)..."
+            PATCHLEVEL=$(grep "ro.build.version.security_patch=" /s/build.prop | cut -d'=' -f2 | head -n1 | tr -d '[:space:]\r ')
+        fi
+        
+        echo "PATCHLEVEL search result: '$PATCHLEVEL'"
+        
+        if [ ! -z "$PATCHLEVEL" ]; then
+            echo "Setting property ro.build.version.security_patch to $PATCHLEVEL"
+            setprop ro.build.version.security_patch "$PATCHLEVEL"
+        else
+            echo "ERROR: PATCHLEVEL is empty!"
+        fi
+        
+        umount /s
     else
         echo "ERR: Could not mount device block $SYS_BLOCK in /s!"
     fi
-
-    # Search patch date in build.prop
-    echo "Searching for patch date in /s/system/build.prop..."
-    PATCHLEVEL=$(grep "ro.build.version.security_patch=" /s/system/build.prop | cut -d'=' -f2 | head -n1)
-   # BUILDVER=$(grep "ro.build.version.release=" /s/system/build.prop | cut -d'=' -f2 | head -n1)
-    
-    # Additional check for GSI
-    if [ -z "$PATCHLEVEL" ]; then
-        echo "Patch is not found in /s/system/build.prop, checking GSI-specific path (/s/build.prop)..."
-        PATCHLEVEL=$(grep "ro.build.version.security_patch=" /s/build.prop | cut -d'=' -f2 | head -n1)
-        # BUILDVER=$(grep "ro.build.version.release=" /s/build.prop | cut -d'=' -f2 | head -n1)
-    fi
-    
-    echo "PATCHLEVEL search result: '$PATCHLEVEL'"
-
-    # Spoof sec. patch date
-    if [ ! -z "$PATCHLEVEL" ]; then
-        echo "Setting property ro.build.version.security_patch in $PATCHLEVEL"
-        setprop ro.build.version.security_patch "$PATCHLEVEL"
-    else
-        echo "WARN: PATCHLEVEL is empty, spoof failed."
-    fi
-    
-    # Unmount and cleanup
-    echo "Unmounting /s..."
-    umount /s
 else
-    echo "FATAL: Block device $SYS_BLOCK does not exist!"
+    echo "FATAL: Block device $SYS_BLOCK does not exist even after timeout!"
 fi
 
 rmdir /s
-
-echo "Setting decrypt props ready flag..."
 setprop tw.decrypt.props.ready true
-
 echo "=== Decrypt preparation done ==="
