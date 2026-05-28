@@ -69,7 +69,13 @@ if [ ! -z "$PROP_FILE" ] && [ -f "$PROP_FILE" ]; then
     
     if [ ! -z "$PATCHLEVEL" ]; then
         echo "Setting property ro.build.version.security_patch to $PATCHLEVEL"
-        setprop ro.build.version.security_patch "$PATCHLEVEL"
+        if command -v resetprop >/dev/null 2>&1; then
+            echo "Using resetprop to bypass init restriction..."
+            resetprop ro.build.version.security_patch "$PATCHLEVEL"
+        else
+            echo "WARNING: resetprop was NOT found! Falling back to standard setprop..."
+            setprop ro.build.version.security_patch "$PATCHLEVEL"
+        fi
     else
         echo "ERROR: PATCHLEVEL is empty!"
     fi
