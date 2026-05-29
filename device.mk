@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-LOCAL_PATH := device/tecno/TECNO_LE7
+LOCAL_PATH := device/tecno/TECNO_LE7x
 
 # Dynamic partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
