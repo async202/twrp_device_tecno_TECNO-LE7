@@ -1,4 +1,6 @@
-# Android device tree for TECNO TECNO LE7 (TECNO-LE7)
+# TWRP device tree for TECNO Pova 2 (LE7|LE7n)
+
+
 
 ```
 #
