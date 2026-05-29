@@ -38,20 +38,20 @@ service keystore_auth /system/bin/keystore_auth
     oneshot
     seclabel u:r:recovery:s0
 
-service mtk.plpath.utils.link /system/bin/mtk_plpath_utils
-    class main
-    user root
-    group root system
-    disabled
-    oneshot
-    seclabel u:r:recovery:s0
-
 service keystore2 /system/bin/keystore2 /tmp/misc/keystore
     interface aidl/android.system.keystore2.IKeystoreService default
     class early_hal
     user root
     group root readproc log
     disabled
+    seclabel u:r:recovery:s0
+
+service mtk.plpath.utils.link /system/bin/mtk_plpath_utils
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
     seclabel u:r:recovery:s0
 
 service gatekeeper-1-0 /system/bin/android.hardware.gatekeeper@1.0-service
