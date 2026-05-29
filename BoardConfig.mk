@@ -129,7 +129,7 @@ TW_INCLUDE_FUSE_EXFAT := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.0/lun.%d/file
 
 TW_NO_FASTBOOT_BOOT := true
-TW_NO_SCREEN_BLANK := true
+# TW_NO_SCREEN_BLANK := true
 TARGET_USES_MKE2FS := true
 TW_INCLUDE_NTFS_3G := true
 TW_USE_TOOLBOX := true
