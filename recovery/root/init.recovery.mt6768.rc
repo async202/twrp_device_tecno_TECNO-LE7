@@ -76,6 +76,7 @@ on property:hwservicemanager.ready=true
 
 # Keymaster & keystore2 will launch only after prepdecrypt.sh set .ready=true
 on property:tw.decrypt.props.ready=true
+    start teei_daemon
     start keystore2
     start vendor-keymaster-4-0-beanpod
     start gatekeeper-1-0
