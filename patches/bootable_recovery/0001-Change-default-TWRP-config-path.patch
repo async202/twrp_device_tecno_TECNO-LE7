@@ -12,7 +12,7 @@ on every boot. This moves the config to the unencrypted /data/media.
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/data.cpp b/data.cpp
-index xxxxxxx..xxxxxxx 100644
+index 7777777..8888888 100644
 --- a/data.cpp
 +++ b/data.cpp
 @@ -850,9 +850,9 @@ void DataManager::SetDefaultValues() {
@@ -26,4 +26,4 @@ index xxxxxxx..xxxxxxx 100644
  #endif
  
  	printf("I:InfoManager loading from '%s'.\n", mSettingsFile.c_str());
---
+-}
