@@ -7,5 +7,5 @@ if [ -d "bootable/recovery" ]; then
     
     find bootable/recovery -type f \( -name "*.cpp" -o -name "*.h" \) -exec sed -i 's|/data/recovery|/data/media/TWRP|g' {} +
     
-    echo "-> Замена успешно выполнена!"
+    echo "-> Replace successful!"
 fi
