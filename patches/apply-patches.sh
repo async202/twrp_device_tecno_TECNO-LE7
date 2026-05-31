@@ -13,7 +13,7 @@ for project_folder in $(cd "$PATCHES_DIR"; echo *); do
     
     [ "$target_path" == "build" ] && target_path=build/make
 
-    echo "-> Обработка репозитория: $target_path"
+    echo "-> Processing: $target_path"
 
     if [ ! -d "$target_path" ]; then
         echo "[WARN] $target_path not found in source. Skipping..."
