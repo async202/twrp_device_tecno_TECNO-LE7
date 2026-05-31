@@ -6,7 +6,7 @@ PATCHES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$SRC_ROOT"
 
 if [ -f "bootable/recovery/data.cpp" ]; then
-    echo "-> [SED] Принудительно меняем пути конфигурации в data.cpp..."
+    echo "-> [SED] Changing config into data.cpp..."
     sed -i 's|"/data/recovery/.twrps"|"/data/media/TWRP/.twrps"|g' bootable/recovery/data.cpp
 fi
 
