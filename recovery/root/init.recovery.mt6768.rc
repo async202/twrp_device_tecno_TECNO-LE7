@@ -12,6 +12,11 @@ on post-fs
     symlink /dev/block/mmcblk0boot0 /dev/block/platform/bootdevice/by-name/preloader_a
     symlink /dev/block/mmcblk0boot1 /dev/block/platform/bootdevice/by-name/preloader_b
 
+on post-fs-data
+    mkdir /data/recovery 0770 system cache
+    restorecon /data/recovery
+    restorecon /data/recovery/.twrps
+
 on fs
     mkdir /mnt/vendor 0700 root root
     mkdir /mnt/vendor/protect_f 0700 root root
