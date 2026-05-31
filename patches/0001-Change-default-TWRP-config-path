@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: async202 <96576912+async202@users.noreply.github.com>
+Date: Sun, 31 May 2026 18:52:37 +0700
+Subject: [PATCH] data: force settings file path to /data/media
+
+On devices with FBE, /data/recovery may be inaccessible before decryption,
+causing TWRP to drop user settings (like language and brightness) 
+on every boot. This moves the config to the unencrypted /data/media.
+
+---
+ data.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/data.cpp b/data.cpp
+index xxxxxxx..xxxxxxx 100644
+--- a/data.cpp
++++ b/data.cpp
+@@ -850,9 +850,9 @@ void DataManager::SetDefaultValues() {
+ 	mBackingFile = TWFunc::Get_TWRP_Dir() + TW_SETTINGS_FILE;
+ 	mSettingsFile = TWFunc::Get_TWRP_Dir() + TW_SETTINGS_FILE;
+ #else
+-	mBackingFile = "/data/recovery/.twrps";
+-	mSettingsFile = "/data/recovery/.twrps";
++	mBackingFile = "/data/media/TWRP/.twrps";
++	mSettingsFile = "/data/media/TWRP/.twrps";
+ #endif
+ 
+ 	printf("I:InfoManager loading from '%s'.\n", mSettingsFile.c_str());
+--
