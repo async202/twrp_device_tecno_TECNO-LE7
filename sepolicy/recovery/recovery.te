@@ -16,3 +16,6 @@ allow recovery service_manager_service: service_manager add;
 # Allow recovery to fully modify folders/files with media_rw_data_file context
 allow recovery media_rw_data_file:dir { open read write search add_name remove_name ioctl getattr setattr };
 allow recovery media_rw_data_file:file { open read write create getattr setattr unlink rename ioctl };
+
+allow recovery recovery_data_file:dir { create_dir_perms };
+allow recovery recovery_data_file:file { create_file_perms };
