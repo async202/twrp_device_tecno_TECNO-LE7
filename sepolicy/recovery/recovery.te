@@ -1,0 +1,14 @@
+# Allow recovery to access and mount block devices
+allow recovery block_device:dir search;
+allow recovery { mmc_blk_device sda_device }:blk_file { read write open getattr mount };
+allow recovery untrusted_app_tmpfs:file { read write open };
+
+# Common file operation permissions required for wipe/format
+allow recovery self:capability { setuid setgid net_raw net_admin sys_chroot dac_override };
+
+# Key rules to resolve errors blocking factory reset
+allow recovery system_data_file:dir { write add_name remove_name search };
+allow recovery system_data_file:file { write create getattr setattr open };
+
+# Allow recovery domain to register services in service_manager
+allow recovery service_manager_service: service_manager add;
