@@ -13,8 +13,6 @@ allow recovery system_data_file:file { write create getattr setattr open };
 # Allow recovery domain to register services in service_manager
 allow recovery service_manager_service: service_manager add;
 
-# Allow recovery to fully modify folders with media_rw_data_file context
+# Allow recovery to fully modify folders/files with media_rw_data_file context
 allow recovery media_rw_data_file:dir { open read write search add_name remove_name ioctl getattr setattr };
-
-# Allow recovery to fully modify files with media_rw_data_file context 
 allow recovery media_rw_data_file:file { open read write create getattr setattr unlink rename ioctl };
