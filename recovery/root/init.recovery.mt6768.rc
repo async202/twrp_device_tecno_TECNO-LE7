@@ -31,6 +31,8 @@ on fs
     rm -rf /data/recovery
     mkdir -p /data/media/TWRP
     ln -s /data/media/TWRP /data/recovery
+    restorecon /data/recovery
+    restorecon -R /data/media/TWRP
 
     install_keyring
 
