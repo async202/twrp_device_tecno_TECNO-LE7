@@ -76,10 +76,6 @@ on property:hwservicemanager.ready=true
 
 # Keymaster & keystore2 will launch only after prepdecrypt.sh set .ready=true
 on property:tw.decrypt.props.ready=true
-    chown root root /data/recovery
-    chown root root /data/recovery/.twrps
-    chmod 0777 /data/recovery
-    chmod 0666 /data/recovery/.twrps
     start teei_daemon
     start keystore2
     start vendor-keymaster-4-0-beanpod
@@ -100,10 +96,6 @@ on property:ro.crypto.state=unsupported
     stop gatekeeper-1-0
     
 on property:ro.crypto.state=unencrypted
-    chown root root /data/recovery
-    chown root root /data/recovery/.twrps
-    chmod 0777 /data/recovery
-    chmod 0666 /data/recovery/.twrps
     stop teei_daemon
     stop keystore2
     stop vendor-keymaster-4-0-beanpod
@@ -114,6 +106,10 @@ on property:twrp.all.users.decrypted=true
     stop keystore2
     stop vendor-keymaster-4-0-beanpod
     stop gatekeeper-1-0
+    chown root root /data/recovery
+    chown root root /data/recovery/.twrps
+    chmod 0777 /data/recovery
+    chmod 0666 /data/recovery/.twrps
    
 on boot
      start boot-hal-1-1
