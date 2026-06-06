@@ -1,3 +1,6 @@
+# Define recovery_data_file
+type recovery_data_file, file_type, data_file_type, core_data_file_type;
+
 # Allow recovery to access and mount block devices
 allow recovery block_device:dir search;
 allow recovery { mmc_blk_device sda_device }:blk_file { read write open getattr mount };
