@@ -106,10 +106,6 @@ on property:twrp.all.users.decrypted=true
     stop keystore2
     stop vendor-keymaster-4-0-beanpod
     stop gatekeeper-1-0
-    chown root root /data/recovery
-    chown root root /data/recovery/.twrps
-    chmod 0777 /data/recovery
-    chmod 0666 /data/recovery/.twrps
    
 on boot
      start boot-hal-1-1
