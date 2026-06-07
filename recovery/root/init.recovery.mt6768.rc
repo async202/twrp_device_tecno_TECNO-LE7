@@ -90,18 +90,30 @@ service prepdecrypt /system/bin/prepdecrypt.sh
     seclabel u:r:recovery:s0
    
 on property:ro.crypto.state=unsupported
+    chown root root /data/recovery
+    chown root root /data/recovery/.twrps
+    chmod 0777 /data/recovery
+    chmod 0666 /data/recovery/.twrps
     stop teei_daemon
     stop keystore2
     stop vendor-keymaster-4-0-beanpod
     stop gatekeeper-1-0
     
 on property:ro.crypto.state=unencrypted
+    chown root root /data/recovery
+    chown root root /data/recovery/.twrps
+    chmod 0777 /data/recovery
+    chmod 0666 /data/recovery/.twrps
     stop teei_daemon
     stop keystore2
     stop vendor-keymaster-4-0-beanpod
     stop gatekeeper-1-0
         
 on property:twrp.all.users.decrypted=true
+    chown root root /data/recovery
+    chown root root /data/recovery/.twrps
+    chmod 0777 /data/recovery
+    chmod 0666 /data/recovery/.twrps
     stop teei_daemon
     stop keystore2
     stop vendor-keymaster-4-0-beanpod
