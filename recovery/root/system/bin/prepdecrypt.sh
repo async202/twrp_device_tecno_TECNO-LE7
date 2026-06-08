@@ -89,18 +89,27 @@ fi
 umount /s 2>/dev/null
 rmdir /s 2>/dev/null
 
+(
+    echo "Background monitor for .twrps started. Waiting for /data to decrypt..."
+    
+    timeout=60
+    while [ $timeout -gt 0 ]; do
+        if [ -f "/data/recovery/.twrps" ]; then
+            echo "Background: .twrps detected! Applying fixes..."
+            chown root:root "/data/recovery/.twrps"
+            chmod 0666 "/data/recovery/.twrps"
+            restorecon "/data/recovery/.twrps"
+            echo "Background: Fixes successfully applied."
+            break
+        fi
+        sleep 1
+        timeout=$((timeout-1))
+    done
 
-TWRPS_FILE="/data/recovery/.twrps"
-
-if [ -f "$TWRPS_FILE" ]; then
-    echo "TWRP settings file detected. Restoring permissions and SELinux context..."
-    chown root:root "$TWRPS_FILE"
-    chmod 0666 "$TWRPS_FILE"
-    restorecon "$TWRPS_FILE"
-else
-    echo "Notice: $TWRPS_FILE not found (possibly clean data), skipping fix."
-fi
-
+    if [ $timeout -eq 0 ]; then
+        echo "Background: Timeout reached, .twrps was not found."
+    fi
+) & 
 
 setprop tw.decrypt.props.ready true
 echo "=== Decrypt preparation done ==="
