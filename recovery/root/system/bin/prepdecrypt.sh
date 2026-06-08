@@ -2,32 +2,21 @@
 
 LOG_FILE="/tmp/prepdecrypt.log"
 exec > "$LOG_FILE" 2>&1
+
 set -x
 
 echo "=== Launching decrypt preparation ==="
 date
 
-set_property() {
-    local prop_name="$1"
-    local prop_value="$2"
-    
-    [ -z "$prop_value" ] && return 0
-
-    if command -v resetprop >/dev/null 2>&1; then
-        resetprop "$prop_name" "$prop_value"
-    else
-        setprop "$prop_name" "$prop_value"
-    fi
-}
-
 mkdir -p /s
 
 SLOT=$(getprop ro.boot.slot_suffix | tr -d '[:space:]\r\n\t ')
+echo "Current device slot: '$SLOT'"
+
 SYS_BLOCK="/dev/block/mapper/system$SLOT"
+echo "Expected system block: '$SYS_BLOCK'"
+
 PROP_FILE=""
-
-echo "Current device slot: '$SLOT' | Expected block: '$SYS_BLOCK'"
-
 
 SEARCH_PATHS="/system_root/system/build.prop /system/system/build.prop /system/build.prop /system_root/build.prop"
 for path in $SEARCH_PATHS; do
@@ -38,7 +27,6 @@ for path in $SEARCH_PATHS; do
     fi
 done
 
-
 if [ -z "$PROP_FILE" ]; then
     echo "build.prop not found in active TWRP paths. Waiting for block device..."
     
@@ -48,14 +36,16 @@ if [ -z "$PROP_FILE" ]; then
             echo "Success: Block device $SYS_BLOCK found on attempt $i"
             break
         fi
-        echo "Waiting for $SYS_BLOCK to appear... (attempt $i/10)"
+        echo "Wait for $SYS_BLOCK to appear... (attempt $i)"
         sleep 1
         i=$((i+1))
     done
 
     if [ -b "$SYS_BLOCK" ]; then
-        echo "Device block found. Trying to mount as READ-ONLY..."
-        if mount -t erofs -o ro "$SYS_BLOCK" /s || mount -t ext4 -o ro "$SYS_BLOCK" /s; then
+        echo "Device block $SYS_BLOCK is found. Trying to mount as READ-ONLY..."
+        mount -t erofs -o ro "$SYS_BLOCK" /s || mount -t ext4 -o ro "$SYS_BLOCK" /s
+        
+        if [ $? -eq 0 ]; then
             echo "Mount to /s completed successfully"
             if [ -f "/s/system/build.prop" ]; then
                 PROP_FILE="/s/system/build.prop"
@@ -63,13 +53,12 @@ if [ -z "$PROP_FILE" ]; then
                 PROP_FILE="/s/build.prop"
             fi
         else
-            echo "ERROR: Could not mount device block $SYS_BLOCK in /s!"
+            echo "ERR: Could not mount device block $SYS_BLOCK in /s!"
         fi
     fi
 fi
 
-
-if [ -n "$PROP_FILE" ] && [ -f "$PROP_FILE" ]; then
+if [ ! -z "$PROP_FILE" ] && [ -f "$PROP_FILE" ]; then
     echo "Extracting system properties from $PROP_FILE..."
     
     PATCHLEVEL=$(grep "ro.build.version.security_patch=" "$PROP_FILE" | cut -d'=' -f2 | head -n1 | tr -d '[:space:]\r ')
@@ -77,39 +66,29 @@ if [ -n "$PROP_FILE" ] && [ -f "$PROP_FILE" ]; then
     
     echo "Extracted values: PATCHLEVEL='$PATCHLEVEL', RELEASE='$RELEASE'"
     
-
-    set_property "ro.build.version.security_patch"      "$PATCHLEVEL"
-    set_property "ro.build.version.release"             "$RELEASE"
-    set_property "ro.build.version.release_or_codename" "$RELEASE"
-    set_property "ro.vendor.build.version.release"      "$RELEASE"
+    if command -v resetprop >/dev/null 2>&1; then
+        echo "Using resetprop to bypass init restriction..."
+        
+        if [ ! -z "$PATCHLEVEL" ]; then
+            resetprop ro.build.version.security_patch "$PATCHLEVEL"
+        fi
+        
+        if [ ! -z "$RELEASE" ]; then
+            resetprop ro.build.version.release "$RELEASE"
+            resetprop ro.build.version.release_or_codename "$RELEASE"
+            resetprop ro.vendor.build.version.release "$RELEASE"
+        fi
+    else
+        echo "ERROR: resetprop not found!"
+        [ ! -z "$PATCHLEVEL" ] && setprop ro.build.version.security_patch "$PATCHLEVEL"
+        [ ! -z "$RELEASE" ] && setprop ro.build.version.release "$RELEASE"
+    fi
 else
-    echo "FATAL: Core build.prop file could not be found!"
+    echo "FATAL: core build.prop file could not be found!"
 fi
 
 umount /s 2>/dev/null
 rmdir /s 2>/dev/null
-
-(
-    echo "Background monitor for .twrps started. Waiting for /data to decrypt..."
-    
-    timeout=60
-    while [ $timeout -gt 0 ]; do
-        if [ -f "/data/recovery/.twrps" ]; then
-            echo "Background: .twrps detected! Applying fixes..."
-            chown root:root "/data/recovery/.twrps"
-            chmod 0666 "/data/recovery/.twrps"
-            restorecon "/data/recovery/.twrps"
-            echo "Background: Fixes successfully applied."
-            break
-        fi
-        sleep 1
-        timeout=$((timeout-1))
-    done
-
-    if [ $timeout -eq 0 ]; then
-        echo "Background: Timeout reached, .twrps was not found."
-    fi
-) & 
 
 setprop tw.decrypt.props.ready true
 echo "=== Decrypt preparation done ==="
