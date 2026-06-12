@@ -91,8 +91,8 @@ umount /s 2>/dev/null
 rmdir /s 2>/dev/null
 
 echo "Preparing persist bind mount for mTEE..."
-mkdir -p /mnt/vendor/persist
 
+mkdir -p /mnt/vendor/persist
 mount -o bind /persist /mnt/vendor/persist
 
 if [ $? -eq 0 ]; then
