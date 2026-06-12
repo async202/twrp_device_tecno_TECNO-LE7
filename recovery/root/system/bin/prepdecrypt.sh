@@ -90,5 +90,16 @@ fi
 umount /s 2>/dev/null
 rmdir /s 2>/dev/null
 
+echo "Preparing persist bind mount for mTEE..."
+mkdir -p /mnt/vendor/persist
+
+mount -o bind /persist /mnt/vendor/persist
+
+if [ $? -eq 0 ]; then
+    echo "Success: /persist successfully bind-mounted to /mnt/vendor/persist"
+else
+    echo "ERR: Failed to bind-mount /persist! teei_daemon might fail."
+fi
+
 setprop tw.decrypt.props.ready true
 echo "=== Decrypt preparation done ==="
