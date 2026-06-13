@@ -101,23 +101,5 @@ else
     echo "ERR: Failed to bind-mount /persist! teei_daemon might fail."
 fi
 
-(
-    echo "Waiting for /data/recovery to decrypt..." >> /tmp/prepdecrypt.log
-
-    while [ ! -d /data/recovery ]; do
-        sleep 0.5
-    done
-
-    echo "Watcher: /data/recovery is now accessible. Injecting symlink..." >> /tmp/prepdecrypt.log
-    rm -f /data/recovery/.twrps
-    ln -s /persist/.twrps /data/recovery/.twrps
-
-    if [ $? -eq 0 ]; then
-        echo "Success! /data/recovery/.twrps linked to /persist/.twrps" >> /tmp/prepdecrypt.log
-    else
-        echo "ERR: Failed to create symlink!" >> /tmp/prepdecrypt.log
-    fi
-) &
-
 setprop tw.decrypt.props.ready true
 echo "=== Decrypt preparation done ==="
