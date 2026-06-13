@@ -8,13 +8,9 @@ Subject: [PATCH] twrp: route native engine to save live settings into persist
  1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/data.cpp b/data.cpp
-index 9f155a07..a9155b08 100755
 --- a/data.cpp
 +++ b/data.cpp
-@@ -319,11 +319,9 @@ int DataManager::Flush()
- int DataManager::SaveValues()
- {
- #ifndef TW_OEM_BUILD
+@@ -322,8 +322,5 @@
  	if (PartitionManager.Mount_By_Path("/persist", false)) {
 -		mPersist.SetFile(PERSIST_SETTINGS_FILE);
 -		mPersist.SetFileVersion(FILE_VERSION);
@@ -26,5 +22,3 @@ index 9f155a07..a9155b08 100755
 +		SetFile(PERSIST_SETTINGS_FILE);
 +		SetFileVersion(FILE_VERSION);
  	}
- 
- 	if (mBackingFile.empty())
