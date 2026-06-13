@@ -8,15 +8,10 @@ Subject: [PATCH] twrp: change TW_STORAGE_PATH to persist partition
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/variables.h b/variables.h
-index 59437c74..9f155a07 100755
 --- a/variables.h
 +++ b/variables.h
-@@ -22,7 +22,7 @@
- #define TW_MAIN_RECOVERY_FOLDER     "/twres/"
- #endif
+@@ -23,3 +23,3 @@
  #ifndef TW_STORAGE_PATH
 -#define TW_STORAGE_PATH             "/data/recovery/"
 +#define TW_STORAGE_PATH             "/persist/"
  #endif
- 
- #define TW_VERSION_STR              "3.7.1_12"
