@@ -102,13 +102,13 @@ else
 fi
 
 (
-    echo "Waiting for /data/recovery to decrypt..." >> /tmp/prepdecrypt.log
+    echo "Waiting for /data to decrypt..." >> /tmp/prepdecrypt.log
 
-    while [ ! -d /data/recovery ]; do
+    while [ ! -d /data/user/0/Android ]; do
         sleep 0.5
     done
 
-    echo "Watcher: /data/recovery is now accessible. Removing .twrps.." >> /tmp/prepdecrypt.log
+    echo "Watcher: /data is now accessible. Removing .twrps.." >> /tmp/prepdecrypt.log
     rm -f /persist/.twrps
 
     if [ $? -eq 0 ]; then
