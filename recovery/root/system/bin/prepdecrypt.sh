@@ -101,22 +101,22 @@ else
     echo "ERR: Failed to bind-mount /persist! teei_daemon might fail."
 fi
 
-(
-    echo "Waiting for /data to decrypt..." >> /tmp/prepdecrypt.log
-
-    while [ ! -d /data/media/0/Android ]; do
-        sleep 10
-    done
-
-    echo "Watcher: /data is now accessible. Removing .twrps.." >> /tmp/prepdecrypt.log
-    rm -f /persist/.twrps
-
-    if [ $? -eq 0 ]; then
-        echo "Success! /persist/.twrps removed" >> /tmp/prepdecrypt.log
-    else
-        echo "ERR: Failed to delete!" >> /tmp/prepdecrypt.log
-    fi
-) &
-
 setprop tw.decrypt.props.ready true
+echo "=== Decrypt preparation ready property set ==="
+
+echo "Waiting for /data to decrypt..."
+
+while [ ! -d /data/media/0/Android ]; do
+    sleep 5
+done
+
+echo "Watcher: /data is now accessible. Removing .twrps.."
+rm -f /persist/.twrps
+
+if [ $? -eq 0 ]; then
+    echo "Success! /persist/.twrps removed"
+else
+    echo "ERR: Failed to delete!"
+fi
+
 echo "=== Decrypt preparation done ==="
