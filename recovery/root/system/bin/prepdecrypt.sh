@@ -105,7 +105,7 @@ fi
     echo "Waiting for /data to decrypt..." >> /tmp/prepdecrypt.log
 
     while [ ! -d /data/media/0/Android ]; do
-        sleep 20
+        sleep 10
     done
 
     echo "Watcher: /data is now accessible. Removing .twrps.." >> /tmp/prepdecrypt.log
