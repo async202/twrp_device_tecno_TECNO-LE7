@@ -7,7 +7,7 @@
 
 Downloads can be found at [here](https://github.com/async202/Action-Recovery-Builder/releases).
 
-Based off [isus203's OnmiRom device tree sample](https://github.com/isus203/twrp_device_tecno_TECNO-LE7)
+Based on [isus203's OnmiRom device tree sample](https://github.com/isus203/twrp_device_tecno_TECNO-LE7)
 
 ```
 #
